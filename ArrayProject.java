@@ -5,45 +5,71 @@ import java.util.List;
 
 public class ArrayProject {
     private String[] hands;
-    private String[] cards;
-    private int numberOfUniques;
 
+    private int numberOfUniques;
+    private int maxFrequency;
 
     public ArrayProject(String[] hands) {
         this.hands = hands;
-        for (int i = 0; i < hands.length; i++) {
-            cards = hands[i].split(",");
-        }
         List<String> list = Arrays.asList(hands);
         Set<String> uniqueStrings = new HashSet<>(list);
         this.numberOfUniques = uniqueStrings.size();
         System.out.println(numberOfUniques);
 
+        int[] frequencies = new int[numberOfUniques];
+        int whichFrequency = 0;
+        for (String card : uniqueStrings) {
+            for (int i = 0; i < hands.length; i++) {
+                if (hands[i].equals(card)) {
+                    frequencies[whichFrequency]++;
+                }
+            }
+            whichFrequency++;
+        }
+        this.maxFrequency = 0;
+        for (int i = 0; i < frequencies.length; i++) {
+            if (frequencies[i] > maxFrequency) {
+                maxFrequency = frequencies[i];
+            }
+        }
+    }
+        public int getNumberOfUniques() {
+            return numberOfUniques;
+        }
+
+
+        public int getMaxFrequency() {
+            return maxFrequency;
+
+        }
     }
 
-    public int getNumberOfUniques() {
-        return numberOfUniques;
-    }
-    public void numberOfEachTypeOfHand() {
-        int fiveOfAKind = 0;
-        int fullHouses = 0;
-        int fourOfAKind = 0;
-        int threeOfAKind = 0;
-        int twoPair = 0;
-        int onePair = 0;
-        int highCard = 0;
 
-        System.out.println("Number of five of a kind hands: " + fiveOfAKind);
-        System.out.println("Number of full house hands: " + fullHouses);
-        System.out.println("Number of four of a kind hands: " + fourOfAKind);
-        System.out.println("Number of three of a kind hands: " + threeOfAKind);
-        System.out.println("Number of two pair hands: " + twoPair);
-        System.out.println("Number of one pair hands: " + onePair);
-        System.out.println("Number of high card hands: " + highCard);
-        System.out.println("Total Bid Value: ");
 
-    }
-}
+
+
+
+
+//    public void numberOfEachTypeOfHand() {
+//        int fiveOfAKind = 0;
+//        int fullHouses = 0;
+//        int fourOfAKind = 0;
+//        int threeOfAKind = 0;
+//        int twoPair = 0;
+//        int onePair = 0;
+//        int highCard = 0;
+//
+//        System.out.println("Number of five of a kind hands: " + fiveOfAKind);
+//        System.out.println("Number of full house hands: " + fullHouses);
+//        System.out.println("Number of four of a kind hands: " + fourOfAKind);
+//        System.out.println("Number of three of a kind hands: " + threeOfAKind);
+//        System.out.println("Number of two pair hands: " + twoPair);
+//        System.out.println("Number of one pair hands: " + onePair);
+//        System.out.println("Number of high card hands: " + highCard);
+//        System.out.println("Total Bid Value: ");
+//
+//    }
+//}
 
 //    public int cardTypes() {
 //        //some preface for this:
@@ -58,7 +84,7 @@ public class ArrayProject {
 //        return typeNumber;
 //    }
 
-        // WELCOME TO THE GRAVEYARD
+// WELCOME TO THE GRAVEYARD
 //        String cardIndices = "1";
 //        for (int i = 1; i < cards.length; i++) {
 //            boolean matched = false;
@@ -144,7 +170,3 @@ public class ArrayProject {
        }
        System.out.println(values[0]);
 */
-
-
-
-
