@@ -25,44 +25,40 @@ public class Main {
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 if (line.isEmpty()) continue;
-            }
-            s.close();
+                fileData += line + "\n"; //there was a massive bug here! before line 28 was added,
+            }                            // the allHands array was initialized with the wrong size
+            s.close();                   //
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-
         String[] hands = fileData.split("\n");
         ArrayProject[] allHands = new ArrayProject[hands.length];
-
         try {
             File f = new File("src/numberz");
             Scanner s = new Scanner(f);
-
+            int i = 0;
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 if (line.isEmpty()) continue;
                 String[] ewGetOutBracket = line.split("\\|");
                 String[] cardsInThisLine = ewGetOutBracket[0].split(","); //( new cool method to do either or "[,|]")
-
-                for (int i = 0; i < hands.length; i++) {
-                    allHands[i] = new ArrayProject(cardsInThisLine, Integer.parseInt(ewGetOutBracket[1]));
-
-                    if (allHands[i].getHandType().equals("fiveOfAKind")) {
-                        fiveOfAKind++;
-                    } else if (allHands[i].getHandType().equals("fourOfAKind")) {
-                        fourOfAKind++;
-                    } else if (allHands[i].getHandType().equals("fullHouse")) {
-                        fullHouse++;
-                    } else if (allHands[i].getHandType().equals("threeOfAKind")) {
-                        threeOfAKind++;
-                    } else if (allHands[i].getHandType().equals("twoPair")) {
-                        twoPair++;
-                    } else if (allHands[i].getHandType().equals("onePair")) {
-                        onePair++;
-                    } else if (allHands[i].getHandType().equals("highCard")) {
-                        highCard++;
-                    }
+                allHands[i] = new ArrayProject(cardsInThisLine, Integer.parseInt(ewGetOutBracket[1]));
+                if (allHands[i].getHandType().equals("fiveOfAKind")) {
+                    fiveOfAKind++;
+                } else if (allHands[i].getHandType().equals("fourOfAKind")) {
+                    fourOfAKind++;
+                } else if (allHands[i].getHandType().equals("fullHouse")) {
+                    fullHouse++;
+                } else if (allHands[i].getHandType().equals("threeOfAKind")) {
+                    threeOfAKind++;
+                } else if (allHands[i].getHandType().equals("twoPair")) {
+                    twoPair++;
+                } else if (allHands[i].getHandType().equals("onePair")) {
+                    onePair++;
+                } else if (allHands[i].getHandType().equals("highCard")) {
+                    highCard++;
                 }
+                i++;
             }
             s.close();
 
@@ -111,7 +107,7 @@ public class Main {
 
 
 
-            System.out.println(fileData);
+            System.out.println(twoPairStrings.length +"here");
 
 
             System.out.println("Number of five of a kind hands: " + fiveOfAKind);
@@ -126,7 +122,7 @@ public class Main {
             for (int i = 0; i < twoPairStrings.length + 1; i++) {
                 System.out.println(twoPairStrings[i].getRank());
             }
-// to lists segregated, index of each
+
 
 
         }
