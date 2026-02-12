@@ -72,15 +72,12 @@ public class ArrayProject {
     public String getHandType() {
         return handType;
     }
-
     public int getMaxFrequency() {
         return maxFrequency;
     }
-
     public void setRank(int rank) {
         this.rank = rank;
     }
-
     public int getCardValue(String card) {
         return switch (card) { //for this part, i had to look to the internet to find a way to
             case "Ace"   -> 14; // "index" each card to make the comparisons seamless
@@ -103,42 +100,37 @@ public class ArrayProject {
 //    public void giveRankingsByN(ArrayProject[] frog, int totalRankings) {
 //        for (ArrayProject hand : frog) {
 //            int cardNumber = 0;
-//            String card = hand.getHands()[cardNumber];
 //            int ranksAbove = 0;
-//            for (int i = 0; i < frog.length; i++) {
-//                while (this.getCardValue(card) == this.getCardValue(frog[i].getHands()[i])) {
+//            for (int i = cardNumber + 1; i < frog.length; i++) {
+//                while (this.getCardValue(hand.getHands()[cardNumber]) == this.getCardValue(frog[i].getHands()[i])) {
 //                    cardNumber++;
+//                    i++;
 //                }
-//                if (this.getCardValue(card) > this.getCardValue(frog[i].getHands()[i])) {
+//                if (this.getCardValue(hand.getHands()[cardNumber]) > this.getCardValue(frog[i].getHands()[i])) {
 //                    ranksAbove = cardNumber;
 //                }
 //            }
-//            cardNumber++;
+//
 //            hand.setRank(ranksAbove);
 //        }
-public void giveRankingsByN(ArrayProject[] frog, int offset) {
-    for (ArrayProject hand : frog) {
-        int beatenInGroup = 0;
-
-        for (ArrayProject other : frog) {
-            if (hand == other) continue; // Don't compare to self
-
-            int cardNumber = 0;
-            // Skip cards that are identical (The "Fall Through")
-            while (cardNumber < 4 &&
-                    getCardValue(hand.getHands()[cardNumber]) == getCardValue(other.getHands()[cardNumber])) {
-                cardNumber++;
+//        }
+    public void giveRankingsByN(ArrayProject[] frog, int totalRankings) {
+        for (ArrayProject hand : frog) {
+            int beatenCount = 0; // Count how many hands are weaker than current 'hand'
+            for (int i = 0; i < frog.length; i++) {
+                ArrayProject other = frog[i];
+                if (hand == other) continue; // Don't compare to self
+                int cardIdx = 0;
+                while (getCardValue(hand.getHands()[cardIdx]) == getCardValue(other.getHands()[cardIdx])) {
+                    cardIdx++;
+                }
+                if (getCardValue(hand.getHands()[cardIdx]) > getCardValue(other.getHands()[cardIdx])) {
+                    beatenCount++;
+                }
             }
-
-            // Compare the first card that is different
-            if (getCardValue(hand.getHands()[cardNumber]) > getCardValue(other.getHands()[cardNumber])) {
-                beatenInGroup++;
-            }
+            hand.setRank(totalRankings + beatenCount + 1);
         }
-        // Rank = (Number of hands you beat in this group) + (Base offset)
-        hand.setRank(beatenInGroup + offset);
     }
-}
 
 
 
