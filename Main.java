@@ -104,11 +104,7 @@ public class Main {
                 highCardStrings[countHC] = hand;
                 countHC++;
             }
-
-
-
-            System.out.println(twoPairStrings.length +"here");
-
+        }
 
             System.out.println("Number of five of a kind hands: " + fiveOfAKind);
             System.out.println("Number of full house hands: " + fullHouse);
@@ -118,13 +114,9 @@ public class Main {
             System.out.println("Number of one pair hands: " + onePair);
             System.out.println("Number of high card hands: " + highCard);
             System.out.println("Total Bid Value: " + totalBidValue);
-            twoPairStrings[0].giveRankingsByN(twoPairStrings, 2);
-            for (int i = 0; i < twoPairStrings.length + 1; i++) {
-                System.out.println(twoPairStrings[i].getRank());
-            }
-
+            highCardStrings[0].giveRankingsByN(highCardStrings, 0);
+                System.out.println(highCardStrings[2].getRank());
 
 
         }
     }
-}
