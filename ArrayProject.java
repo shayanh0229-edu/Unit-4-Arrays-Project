@@ -97,7 +97,7 @@ public class ArrayProject {
         return hands;
     }
 
-//    public void giveRankingsByN(ArrayProject[] frog, int totalRankings) {
+    //    public void giveRankingsByN(ArrayProject[] frog, int totalRankings) {
 //        for (ArrayProject hand : frog) {
 //            int cardNumber = 0;
 //            int ranksAbove = 0;
@@ -138,4 +138,3 @@ public class ArrayProject {
         return rank;
     }
 }
-
