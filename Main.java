@@ -3,9 +3,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.Scanner;
 
-
 public class Main {
-
 
     public static void main(String[] args) {
         int fiveOfAKind = 0;
@@ -15,7 +13,6 @@ public class Main {
         int twoPair = 0;
         int onePair = 0;
         int highCard = 0;
-        int totalBidValue = 0;
 
         String fileData = "";
         try {
@@ -42,7 +39,7 @@ public class Main {
                 if (line.isEmpty()) continue;
                 String[] ewGetOutBracket = line.split("\\|");
                 String[] cardsInThisLine = ewGetOutBracket[0].split(","); //( new cool method to do either or "[,|]")
-                allHands[i] = new ArrayProject(cardsInThisLine, Integer.parseInt(ewGetOutBracket[1]));
+                allHands[i] = new ArrayProject(cardsInThisLine, Integer.parseInt(ewGetOutBracket[1]), false);
                 if (allHands[i].getHandType().equals("fiveOfAKind")) {
                     fiveOfAKind++;
                 } else if (allHands[i].getHandType().equals("fourOfAKind")) {
@@ -65,58 +62,35 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-        ArrayProject[] fiveOfAKindStrings = new ArrayProject[fiveOfAKind];
-        ArrayProject[] fourOfAKindStrings = new ArrayProject[fourOfAKind];
-        ArrayProject[] fullHouseStrings = new ArrayProject[fullHouse];
-        ArrayProject[] threeOfAKindStrings = new ArrayProject[threeOfAKind];
-        ArrayProject[] twoPairStrings = new ArrayProject[twoPair];
-        ArrayProject[] onePairStrings = new ArrayProject[onePair];
-        ArrayProject[] highCardStrings = new ArrayProject[highCard];
 
-        int count5 = 0;
-        int count4 = 0;
-        int countFH = 0;
-        int count3 = 0;
-        int count2P = 0;
-        int count1P = 0;
-        int countHC = 0;
-
+        allHands[0].giveRankingsByN(allHands);
+        int totalBidValue = 0;
         for (ArrayProject hand : allHands) {
-            if (hand.getHandType().equals("fiveOfAKind")) {
-                fiveOfAKindStrings[count5] = hand;
-                count5++;
-            } else if (hand.getHandType().equals("fourOfAKind")) {
-                fourOfAKindStrings[count4] = hand;
-                count4++;
-            } else if (hand.getHandType().equals("fullHouse")) {
-                fullHouseStrings[countFH] = hand;
-                countFH++;
-            } else if (hand.getHandType().equals("threeOfAKind")) {
-                threeOfAKindStrings[count3] = hand;
-                count3++;
-            } else if (hand.getHandType().equals("twoPair")) {
-                twoPairStrings[count2P] = hand;
-                count2P++;
-            } else if (hand.getHandType().equals("onePair")) {
-                onePairStrings[count1P] = hand;
-                count1P++;
-            } else if (hand.getHandType().equals("highCard")) {
-                highCardStrings[countHC] = hand;
-                countHC++;
-            }
+            totalBidValue += hand.getBidValue();
+        }
+        ArrayProject[] jackedHands = new ArrayProject[allHands.length];
+        int i = 0;
+        for (ArrayProject hand: allHands) {
+            jackedHands[i] = new ArrayProject(hand.getHands(), hand.getBracketThingy(), true);
+            i++;
         }
 
-            System.out.println("Number of five of a kind hands: " + fiveOfAKind);
-            System.out.println("Number of full house hands: " + fullHouse);
-            System.out.println("Number of four of a kind hands: " + fourOfAKind);
-            System.out.println("Number of three of a kind hands: " + threeOfAKind);
-            System.out.println("Number of two pair hands: " + twoPair);
-            System.out.println("Number of one pair hands: " + onePair);
-            System.out.println("Number of high card hands: " + highCard);
-            System.out.println("Total Bid Value: " + totalBidValue);
-            highCardStrings[0].giveRankingsByN(highCardStrings, 0);
-                System.out.println(highCardStrings[2].getRank());
+        int jackBidValue = 0;
 
-
+        jackedHands[0].giveJackedRankingsByN(jackedHands);
+        for (ArrayProject hand : jackedHands) {
+            jackBidValue += hand.getBidValue();
         }
+
+        System.out.println("Number of five of a kind hands: " + fiveOfAKind);
+        System.out.println("Number of full house hands: " + fullHouse);
+        System.out.println("Number of four of a kind hands: " + fourOfAKind);
+        System.out.println("Number of three of a kind hands: " + threeOfAKind);
+        System.out.println("Number of two pair hands: " + twoPair);
+        System.out.println("Number of one pair hands: " + onePair);
+        System.out.println("Number of high card hands: " + highCard);
+        System.out.println("Total Bid Value: " + totalBidValue);
+        System.out.println("Bid Value With Jacks Wild: " + jackBidValue);
+
     }
+}
